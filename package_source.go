@@ -29,6 +29,7 @@ func (packageSource PackageSource) Fetch() {
 	response, err := http.Get(packageSource.URL())
 	Crash(err)
 
-	io.Copy(destination, response.Body)
+	_, err = io.Copy(destination, response.Body)
+	Crash(err)
 	defer response.Body.Close()
 }
