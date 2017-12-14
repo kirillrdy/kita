@@ -7,17 +7,11 @@ import (
 
 const KitaBasePath = "/home/kirillvr/.kita/"
 
-//TODO move to util
-func Crash(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
-}
-
 //TODO also move to util
 func ensureDir() {
 	os.MkdirAll(KitaBasePath, os.ModePerm)
 	os.MkdirAll(LocalSourceDir, os.ModePerm)
+	os.MkdirAll(BuildDir, os.ModePerm)
 }
 
 func main() {
@@ -25,4 +19,5 @@ func main() {
 	log.Println("Hello from go")
 	source := PackageSource{fileName: "ruby-2.4.2.tar.gz"}
 	source.Fetch()
+	source.Extract()
 }

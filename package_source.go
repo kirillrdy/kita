@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/kirillrdy/kita/error"
+	"github.com/kirillrdy/kita/shell"
 	"io"
 	"net/http"
 	"os"
@@ -13,6 +15,9 @@ type PackageSource struct {
 
 const LocalSourceDir = KitaBasePath + "sources/"
 
+//TODO move somewhere
+const BuildDir = KitaBasePath + "build/"
+
 func (packageSource PackageSource) URL() string {
 	//TODO ask some sort of URLer
 	return "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz"
@@ -24,12 +29,16 @@ func (packageSource PackageSource) LocalPath() string {
 
 func (packageSource PackageSource) Fetch() {
 	destination, err := os.Create(packageSource.LocalPath())
-	Crash(err)
+	defer destination.Close() //TODO errors
+	error.Crash(err)
 
 	response, err := http.Get(packageSource.URL())
-	Crash(err)
+	error.Crash(err)
 
 	_, err = io.Copy(destination, response.Body)
-	Crash(err)
+	error.Crash(err)
 	defer response.Body.Close()
+}
+func (packageSource PackageSource) Extract() {
+	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildDir)
 }
