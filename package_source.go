@@ -4,6 +4,7 @@ import (
 	"github.com/kirillrdy/kita/error"
 	"github.com/kirillrdy/kita/shell"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -28,6 +29,8 @@ func (packageSource PackageSource) LocalPath() string {
 }
 
 func (packageSource PackageSource) Fetch() {
+	log.Printf("Fetching: %v", packageSource.URL())
+
 	destination, err := os.Create(packageSource.LocalPath())
 	defer destination.Close() //TODO errors
 	error.Crash(err)
