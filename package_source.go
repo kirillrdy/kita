@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kirillrdy/kita/error"
 	"github.com/kirillrdy/kita/shell"
 	"io"
@@ -11,7 +12,8 @@ import (
 
 // PackageSource represents something like "ruby-2.4.2.tar.gz"
 type PackageSource struct {
-	fileName string //TODO  Or maybe archive type or something
+	fileName       string //TODO  Or maybe archive type or something
+	PackageVersion PackageVersion
 }
 
 const LocalSourceDir = KitaBasePath + "sources/"
@@ -47,7 +49,17 @@ func (packageSource PackageSource) Extract() {
 	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
 }
 
+func (packageSource PackageSource) BuildPath() string {
+	return fmt.Sprintf("%s%s", BuildPath, packageSource.PackageVersion.Display())
+}
+
+func (packageSource PackageSource) prefixArgument() string {
+	return fmt.Sprintf("--prefix=%s", packageSource.PackageVersion.WorldPath())
+}
+
 func (packageSource PackageSource) Install() {
 	//TODO obviously not rely on tar binary
-	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
+	shell.ExecDir(packageSource.BuildPath(), "sh", "configure", packageSource.prefixArgument())
+	shell.ExecDir(packageSource.BuildPath(), "make")
+	shell.ExecDir(packageSource.BuildPath(), "make", "install")
 }

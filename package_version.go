@@ -1,9 +1,17 @@
 package main
 
+import (
+	"fmt"
+)
+
 // Represents a particular versionf of a particular package, eg ruby-2.4.2
 type PackageVersion struct {
 	Package Package
 	Version string //TODO for now, need some sort of version type
+}
+
+func (packageVersion PackageVersion) Display() string {
+	return fmt.Sprintf("%s-%s", packageVersion.Package.Name, packageVersion.Version)
 }
 
 func (packageVersion PackageVersion) Install() {
@@ -15,9 +23,14 @@ func (packageVersion PackageVersion) Install() {
 	// install --> will be subtyped eg make, cmake, cargo etc
 	source.Fetch()
 	source.Extract()
+	source.Install()
 }
 
-func (PackageVersion PackageVersion) Source() PackageSource {
+func (packageVersion PackageVersion) WorldPath() string {
+	return fmt.Sprintf("%s%s", WorldPath, packageVersion.Display())
+}
+
+func (packageVersion PackageVersion) Source() PackageSource {
 	//TODO find source for a given version
-	return PackageSource{fileName: "ruby-2.4.2.tar.gz"}
+	return PackageSource{fileName: "ruby-2.4.2.tar.gz", PackageVersion: packageVersion}
 }
