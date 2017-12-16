@@ -3,17 +3,15 @@ package shell
 import (
 	"github.com/kirillrdy/kita/error"
 	"log"
-	"os"
 	"os/exec"
 )
 
 func ExecDir(dir string, cmdName string, args ...string) {
+	log.Printf("%v %v", cmdName, args)
 	cmd := exec.Command(cmdName, args...)
 	cmd.Dir = dir
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	log.Println(dir)
 	err := cmd.Run()
+	//TODO something better than crash here
 	error.Crash(err)
 }
 
