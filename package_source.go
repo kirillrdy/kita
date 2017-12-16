@@ -17,7 +17,7 @@ type PackageSource struct {
 const LocalSourceDir = KitaBasePath + "sources/"
 
 //TODO move somewhere
-const BuildDir = KitaBasePath + "build/"
+const BuildPath = KitaBasePath + "build/"
 
 func (packageSource PackageSource) URL() string {
 	//TODO ask some sort of URLer
@@ -43,5 +43,11 @@ func (packageSource PackageSource) Fetch() {
 	defer response.Body.Close()
 }
 func (packageSource PackageSource) Extract() {
-	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildDir)
+	//TODO obviously not rely on tar binary
+	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
+}
+
+func (packageSource PackageSource) Install() {
+	//TODO obviously not rely on tar binary
+	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
 }

@@ -5,8 +5,13 @@ import (
 	"os/exec"
 )
 
-func Exec(cmdName string, args ...string) {
+func ExecDir(dir string, cmdName string, args ...string) {
 	cmd := exec.Command(cmdName, args...)
+	cmd.Dir = dir
 	err := cmd.Run()
 	error.Crash(err)
+}
+
+func Exec(cmdName string, args ...string) {
+	ExecDir("", cmdName, args...)
 }

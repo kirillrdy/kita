@@ -12,7 +12,7 @@ const WorldPath = KitaBasePath + "world/"
 func ensureDir() {
 	os.MkdirAll(KitaBasePath, os.ModePerm)
 	os.MkdirAll(LocalSourceDir, os.ModePerm)
-	os.MkdirAll(BuildDir, os.ModePerm)
+	os.MkdirAll(BuildPath, os.ModePerm)
 	os.MkdirAll(WorldPath, os.ModePerm)
 }
 
