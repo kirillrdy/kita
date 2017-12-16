@@ -16,7 +16,7 @@ type PackageSource struct {
 	PackageVersion PackageVersion
 }
 
-const LocalSourcePath = KitaBasePath + "sources/"
+const LocalSourcesPath = KitaBasePath + "sources/"
 
 //TODO move somewhere
 const BuildPath = KitaBasePath + "build/"
@@ -27,7 +27,7 @@ func (packageSource PackageSource) URL() string {
 }
 
 func (packageSource PackageSource) LocalPath() string {
-	return LocalSourcePath + packageSource.fileName
+	return LocalSourcesPath + packageSource.fileName
 }
 
 func (packageSource PackageSource) Fetch() {
@@ -63,4 +63,7 @@ func (packageSource PackageSource) Install() {
 	shell.ExecDir(packageSource.BuildPath(), "sh", "configure", packageSource.prefixArgument())
 	shell.ExecDir(packageSource.BuildPath(), "make")
 	shell.ExecDir(packageSource.BuildPath(), "make", "install")
+
+	archive := PackageArchive{PackageVersion: packageSource.PackageVersion}
+	archive.create()
 }
