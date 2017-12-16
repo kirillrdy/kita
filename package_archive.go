@@ -28,6 +28,11 @@ func (archive PackageArchive) create() {
 	shell.ExecDir(WorldPath, "tar", "cvf", archive.path(), archive.PackageVersion.Display())
 }
 
+func (archive PackageArchive) Extract() {
+	//TODO obviously not rely on tar binary
+	shell.Exec("tar", "xvf", archive.path(), "-C", WorldPath)
+}
+
 func (archive PackageArchive) Exists() bool {
 	_, err := os.Stat(archive.path())
 	return !os.IsNotExist(err)

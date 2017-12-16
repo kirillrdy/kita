@@ -15,6 +15,11 @@ func (packageVersion PackageVersion) Display() string {
 }
 
 func (packageVersion PackageVersion) Install() {
+	archive := PackageArchive{PackageVersion: packageVersion}
+	if archive.Exists() {
+		archive.Extract()
+		return
+	}
 	source := packageVersion.Source()
 	//TODO roughtly
 	// fetch if needed
