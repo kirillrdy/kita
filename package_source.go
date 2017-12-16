@@ -69,7 +69,4 @@ func (packageSource PackageSource) Install() {
 	shell.ExecDir(packageSource.BuildPath(), "sh", "configure", packageSource.prefixArgument())
 	shell.ExecDir(packageSource.BuildPath(), "make")
 	shell.ExecDir(packageSource.BuildPath(), "make", "install")
-
-	archive := PackageArchive{PackageVersion: packageSource.PackageVersion}
-	archive.create()
 }
