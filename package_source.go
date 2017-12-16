@@ -49,6 +49,7 @@ func (packageSource PackageSource) Extract() {
 	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
 }
 
+//TODO firgure this out not based on Display of version
 func (packageSource PackageSource) BuildPath() string {
 	return fmt.Sprintf("%s%s", BuildPath, packageSource.PackageVersion.Display())
 }
