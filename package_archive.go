@@ -25,6 +25,7 @@ func (archive PackageArchive) path() string {
 func (archive PackageArchive) create() {
 	log.Printf("Making Package for %v", archive.PackageVersion.Display())
 	//TODO usage of Display here
+	//TODO correct flags for compression and compressort type
 	shell.ExecDir(WorldPath, "tar", "cvf", archive.path(), archive.PackageVersion.Display())
 }
 

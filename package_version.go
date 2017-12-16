@@ -26,7 +26,10 @@ func (packageVersion PackageVersion) Install() {
 	// verify if possible, otherwise record
 	// extract
 	// install --> will be subtyped eg make, cmake, cargo etc
-	source.Fetch()
+	if !source.ExistsLocally() {
+		source.Fetch()
+	}
+
 	source.Extract()
 	source.Install()
 }

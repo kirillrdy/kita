@@ -44,6 +44,12 @@ func (packageSource PackageSource) Fetch() {
 	error.Crash(err)
 	defer response.Body.Close()
 }
+
+func (source PackageSource) ExistsLocally() bool {
+	_, err := os.Stat(source.LocalPath())
+	return !os.IsNotExist(err)
+}
+
 func (packageSource PackageSource) Extract() {
 	//TODO obviously not rely on tar binary
 	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
