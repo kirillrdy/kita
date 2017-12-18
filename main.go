@@ -5,8 +5,6 @@ import (
 	"os"
 )
 
-//TODO check if we can hardcode user name in the prefix
-//TODO detect user home dir
 const KitaBasePath = "/kita/"
 const WorldPath = KitaBasePath + "world/"
 
