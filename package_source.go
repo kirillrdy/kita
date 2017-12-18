@@ -21,23 +21,23 @@ const LocalSourcesPath = KitaBasePath + "sources/"
 //TODO move somewhere
 const BuildPath = KitaBasePath + "build/"
 
-func (packageSource PackageSource) URL() string {
+func (source PackageSource) URL() string {
 	//TODO ask some sort of URLer
 	return "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz"
 }
 
-func (packageSource PackageSource) LocalPath() string {
-	return LocalSourcesPath + packageSource.fileName
+func (source PackageSource) LocalPath() string {
+	return LocalSourcesPath + source.fileName
 }
 
-func (packageSource PackageSource) Fetch() {
-	log.Printf("Fetching: %v", packageSource.URL())
+func (source PackageSource) Fetch() {
+	log.Printf("Fetching: %v", source.URL())
 
-	destination, err := os.Create(packageSource.LocalPath())
+	destination, err := os.Create(source.LocalPath())
 	defer destination.Close() //TODO errors
 	error.Crash(err)
 
-	response, err := http.Get(packageSource.URL())
+	response, err := http.Get(source.URL())
 	error.Crash(err)
 
 	_, err = io.Copy(destination, response.Body)
@@ -50,23 +50,23 @@ func (source PackageSource) ExistsLocally() bool {
 	return !os.IsNotExist(err)
 }
 
-func (packageSource PackageSource) Extract() {
+func (source PackageSource) Extract() {
 	//TODO obviously not rely on tar binary
-	shell.Exec("tar", "xvf", packageSource.LocalPath(), "-C", BuildPath)
+	shell.Exec("tar", "xvf", source.LocalPath(), "-C", BuildPath)
 }
 
 //TODO firgure this out not based on Display of version
-func (packageSource PackageSource) BuildPath() string {
-	return fmt.Sprintf("%s%s", BuildPath, packageSource.PackageVersion.Display())
+func (source PackageSource) BuildPath() string {
+	return fmt.Sprintf("%s%s", BuildPath, source.PackageVersion.Display())
 }
 
-func (packageSource PackageSource) prefixArgument() string {
-	return fmt.Sprintf("--prefix=%s", packageSource.PackageVersion.WorldPath())
+func (source PackageSource) prefixArgument() string {
+	return fmt.Sprintf("--prefix=%s", source.PackageVersion.WorldPath())
 }
 
-func (packageSource PackageSource) Install() {
+func (source PackageSource) Install() {
 	//TODO obviously not rely on tar binary
-	shell.ExecDir(packageSource.BuildPath(), "sh", "configure", packageSource.prefixArgument())
-	shell.ExecDir(packageSource.BuildPath(), "make")
-	shell.ExecDir(packageSource.BuildPath(), "make", "install")
+	shell.ExecDir(source.BuildPath(), "sh", "configure", source.prefixArgument())
+	shell.ExecDir(source.BuildPath(), "make")
+	shell.ExecDir(source.BuildPath(), "make", "install")
 }
