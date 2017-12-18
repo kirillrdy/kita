@@ -21,5 +21,5 @@ func main() {
 	ensureDir()
 	log.Println("Kita kita tokyuu")
 	p := Package{Name: "ruby"}
-	p.LatestVersion().Install()
+	p.Install()
 }
