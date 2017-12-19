@@ -41,6 +41,6 @@ func (packageVersion PackageVersion) WorldPath() string {
 }
 
 func (packageVersion PackageVersion) Source() PackageSource {
-	//TODO find source for a given version
-	return PackageSource{fileName: "ruby-2.4.2.tar.gz", PackageVersion: packageVersion}
+	fileName := File(packageVersion)
+	return PackageSource{fileName: fileName, PackageVersion: packageVersion}
 }

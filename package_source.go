@@ -22,8 +22,7 @@ const LocalSourcesPath = KitaBasePath + "sources/"
 const BuildPath = KitaBasePath + "build/"
 
 func (source PackageSource) URL() string {
-	//TODO ask some sort of URLer
-	return "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz"
+	return Url(source.fileName)
 }
 
 func (source PackageSource) LocalPath() string {

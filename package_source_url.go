@@ -8,8 +8,26 @@ import (
 
 type PackageSourceUrl string
 
+var versions map[string][]string = make(map[string][]string)
+var files map[string][]string = make(map[string][]string)
+var urls map[string][]string = make(map[string][]string)
+
 func AllUrls() []string {
 	return []string{"https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz"}
+}
+
+func Versions(packageName string) []string {
+	return versions[packageName]
+}
+
+func File(version PackageVersion) string {
+	//TODO deal with empty slice
+	return files[version.Display()][0]
+}
+
+func Url(fileName string) string {
+	//TODO panic
+	return urls[fileName][0]
 }
 
 func extractVersion(url string) (string, string) {
@@ -25,8 +43,12 @@ func extractVersion(url string) (string, string) {
 
 func addUrl(url string) {
 	packageName, version := extractVersion(url)
-	log.Println(packageName)
-	log.Println(version)
+	versions[packageName] = append(versions[packageName], version)
+
+	fileName := filepath.Base(url)
+	packagePlusVersion := packageName + "-" + version
+	files[packagePlusVersion] = append(files[packagePlusVersion], fileName)
+	urls[fileName] = append(urls[fileName], url)
 
 }
 

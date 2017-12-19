@@ -17,10 +17,11 @@ func (p Package) LatestVersion() PackageVersion {
 }
 
 func (p Package) Versions() []PackageVersion {
-	if p.Name == "ruby" {
-		return []PackageVersion{{Package: p, Version: "2.4.2"}}
+	var versions []PackageVersion
+	for _, version := range Versions(p.Name) {
+		versions = append(versions, PackageVersion{Package: p, Version: version})
 	}
-	return []PackageVersion{}
+	return versions
 }
 
 // Very naive, trying to install latest version
