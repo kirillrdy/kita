@@ -6,12 +6,21 @@ type Package struct {
 }
 
 func (p Package) LatestVersion() PackageVersion {
-	//TODO somehow get latest version
-	if p.Name == "ruby" {
-		return PackageVersion{Package: p, Version: "2.4.2"}
+
+	versons := p.Versions()
+	//TODO something better here
+	if len(versons) != 0 {
+		return versons[len(versons)-1]
 	}
 	panic("Dont know how to build this yet")
 
+}
+
+func (p Package) Versions() []PackageVersion {
+	if p.Name == "ruby" {
+		return []PackageVersion{{Package: p, Version: "2.4.2"}}
+	}
+	return []PackageVersion{}
 }
 
 // Very naive, trying to install latest version
