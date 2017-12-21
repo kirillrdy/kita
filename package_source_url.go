@@ -73,6 +73,8 @@ func stripThings(fileName string) string {
 		".tar.gz",
 		".source.tar.xz", //Hack for firefox
 		".tar.xz",
+		".zip",
+		".tgz",
 		".tar.bz2"}
 
 	var result = fileName
