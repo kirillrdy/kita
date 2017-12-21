@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"github.com/kirillrdy/kita/error"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -12,12 +15,21 @@ var versions map[string][]string = make(map[string][]string)
 var files map[string][]string = make(map[string][]string)
 var urls map[string][]string = make(map[string][]string)
 
+const UrlsFileName = "kita.urls"
+
 func AllUrls() []string {
-	return []string{
-		"https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz",
-		"https://archive.mozilla.org/pub/firefox/releases/57.0.1/source/firefox-57.0.1.source.tar.xz",
-		"https://github.com/jonas/tig/releases/download/tig-2.3.2/tig-2.3.2.tar.gz",
+	var urls []string
+
+	file, err := os.Open(UrlsFileName)
+	defer file.Close()
+	error.Crash(err)
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		urls = append(urls, scanner.Text())
 	}
+	return urls
 }
 
 func Versions(packageName string) []string {
