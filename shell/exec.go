@@ -7,7 +7,7 @@ import (
 )
 
 func ExecDir(dir string, cmdName string, args ...string) {
-	log.Printf("%v %v", cmdName, args)
+	log.Printf("%% %v %v", cmdName, args)
 	cmd := exec.Command(cmdName, args...)
 	cmd.Dir = dir
 	err := cmd.Run()
