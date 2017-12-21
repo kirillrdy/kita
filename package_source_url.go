@@ -13,7 +13,9 @@ var files map[string][]string = make(map[string][]string)
 var urls map[string][]string = make(map[string][]string)
 
 func AllUrls() []string {
-	return []string{"https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz"}
+	return []string{
+		"https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz",
+		"https://archive.mozilla.org/pub/firefox/releases/57.0.1/source/firefox-57.0.1.source.tar.xz"}
 }
 
 func Versions(packageName string) []string {
