@@ -74,4 +74,5 @@ func init() {
 	for _, url := range AllUrls() {
 		addUrl(url)
 	}
+	log.Print(versions)
 }
