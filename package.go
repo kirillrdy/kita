@@ -42,10 +42,10 @@ func (p Package) FindVersion(requiredVersion string) (PackageVersion, error) {
 
 // Very naive, trying to install latest version
 func (p Package) Install(requiredVersion string) {
-	log.Printf("Required to install %v", requiredVersion)
 	version := p.LatestVersion()
 
 	if requiredVersion != "" {
+		log.Printf("Required to install %v", requiredVersion)
 		var err error
 		version, err = p.FindVersion(requiredVersion)
 		e.Crash(err)
