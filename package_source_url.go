@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type PackageSourceUrl string
@@ -19,15 +20,21 @@ const UrlsFileName = "kita.urls"
 
 func loadUrlsFromFile() {
 
+	start := time.Now()
+
 	file, err := os.Open(UrlsFileName)
 	defer file.Close()
 	error.Crash(err)
 
 	scanner := bufio.NewScanner(file)
 
+	count := 0
+
 	for scanner.Scan() {
 		addUrl(scanner.Text())
+		count += 1
 	}
+	log.Printf("Processed %d urls in %v", count, time.Since(start))
 }
 
 func Versions(packageName string) []string {
