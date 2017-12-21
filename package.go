@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	e "github.com/kirillrdy/kita/error"
+	e "github.com/kirillrdy/kita/error" //TODO do something better than e
 	"log"
 )
 
