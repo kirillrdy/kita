@@ -15,7 +15,6 @@ func Make(what string, toWhere string) {
 		makeBin = "gmake"
 	}
 
-	//TODO obviously not rely on tar binary
 	shell.ExecDir(what, "sh", "configure", prefixArg)
 	shell.ExecDir(what, makeBin)
 	shell.ExecDir(what, makeBin, "install")
