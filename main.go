@@ -20,6 +20,6 @@ func ensureDir() {
 func main() {
 	ensureDir()
 	log.Println("Kita kita tokyuu")
-	p := Package{Name: "firefox"}
+	p := Package{Name: "tig"}
 	p.Install()
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/kirillrdy/kita/error"
+	"github.com/kirillrdy/kita/install"
 	"github.com/kirillrdy/kita/shell"
 	"io"
 	"log"
@@ -64,8 +65,6 @@ func (source PackageSource) prefixArgument() string {
 }
 
 func (source PackageSource) Install() {
+	install.Make(source.BuildPath(), source.PackageVersion.WorldPath())
 	//TODO obviously not rely on tar binary
-	shell.ExecDir(source.BuildPath(), "sh", "configure", source.prefixArgument())
-	shell.ExecDir(source.BuildPath(), "make")
-	shell.ExecDir(source.BuildPath(), "make", "install")
 }

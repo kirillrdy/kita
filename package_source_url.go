@@ -15,7 +15,9 @@ var urls map[string][]string = make(map[string][]string)
 func AllUrls() []string {
 	return []string{
 		"https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz",
-		"https://archive.mozilla.org/pub/firefox/releases/57.0.1/source/firefox-57.0.1.source.tar.xz"}
+		"https://archive.mozilla.org/pub/firefox/releases/57.0.1/source/firefox-57.0.1.source.tar.xz",
+		"https://github.com/jonas/tig/releases/download/tig-2.3.2/tig-2.3.2.tar.gz",
+	}
 }
 
 func Versions(packageName string) []string {
@@ -55,7 +57,11 @@ func addUrl(url string) {
 }
 
 func stripThings(fileName string) string {
-	endings := []string{".tar.gz", ".tar.xz", ".tar.bz2"}
+	endings := []string{
+		".tar.gz",
+		".source.tar.xz", //Hack for firefox
+		".tar.xz",
+		".tar.bz2"}
 
 	var result = fileName
 	for _, ending := range endings {
