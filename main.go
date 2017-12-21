@@ -27,7 +27,6 @@ func main() {
 	flag.Parse()
 
 	p := Package{Name: flag.Arg(0)}
-	log.Print("Versions")
-	log.Print(versions[flag.Arg(0)])
+	log.Printf("%v Versions %v\n", p.Name, versions[p.Name])
 	p.Install(*version)
 }
