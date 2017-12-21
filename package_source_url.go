@@ -17,8 +17,7 @@ var urls map[string][]string = make(map[string][]string)
 
 const UrlsFileName = "kita.urls"
 
-func AllUrls() []string {
-	var urls []string
+func loadUrlsFromFile() {
 
 	file, err := os.Open(UrlsFileName)
 	defer file.Close()
@@ -27,9 +26,8 @@ func AllUrls() []string {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		urls = append(urls, scanner.Text())
+		addUrl(scanner.Text())
 	}
-	return urls
 }
 
 func Versions(packageName string) []string {
@@ -85,8 +83,6 @@ func stripThings(fileName string) string {
 }
 
 func init() {
-	for _, url := range AllUrls() {
-		addUrl(url)
-	}
-	log.Print(versions)
+	//TODO time that this doesnt take too long so that we don't do this every start
+	loadUrlsFromFile()
 }

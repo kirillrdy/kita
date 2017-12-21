@@ -1,5 +1,11 @@
 package main
 
+import (
+	"errors"
+	e "github.com/kirillrdy/kita/error"
+	"log"
+)
+
 // Package represets something like "ruby"
 type Package struct {
 	Name string
@@ -24,7 +30,27 @@ func (p Package) Versions() []PackageVersion {
 	return versions
 }
 
+func (p Package) FindVersion(requiredVersion string) (PackageVersion, error) {
+
+	for _, version := range Versions(p.Name) {
+		if version == requiredVersion {
+			return PackageVersion{Package: p, Version: version}, nil
+		}
+	}
+	return PackageVersion{}, errors.New("Required package version is not found")
+}
+
 // Very naive, trying to install latest version
-func (p Package) Install() {
-	p.LatestVersion().Install()
+func (p Package) Install(requiredVersion string) {
+	log.Printf("Required to install %v", requiredVersion)
+	version := p.LatestVersion()
+
+	if requiredVersion != "" {
+		var err error
+		version, err = p.FindVersion(requiredVersion)
+		e.Crash(err)
+
+	}
+	version.Install()
+
 }

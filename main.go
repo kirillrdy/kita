@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 )
@@ -18,8 +19,15 @@ func ensureDir() {
 }
 
 func main() {
-	ensureDir()
 	log.Println("Kita kita tokyuu")
-	p := Package{Name: "vim"}
-	p.Install()
+	ensureDir()
+
+	version := flag.String("version", "", "Version of package to install")
+
+	flag.Parse()
+
+	p := Package{Name: flag.Arg(0)}
+	log.Print("Versions")
+	log.Print(versions[flag.Arg(0)])
+	p.Install(*version)
 }
