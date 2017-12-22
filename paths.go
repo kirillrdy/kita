@@ -1,8 +1,6 @@
-package main
+package kita
 
 import (
-	"flag"
-	"log"
 	"os"
 )
 
@@ -18,15 +16,6 @@ func ensureDir() {
 	os.MkdirAll(LocalPackageArchivesPath, os.ModePerm)
 }
 
-func main() {
-	log.Println("Kita kita tokyuu")
+func init() {
 	ensureDir()
-
-	version := flag.String("version", "", "Version of package to install")
-
-	flag.Parse()
-
-	p := Package{Name: flag.Arg(0)}
-	log.Printf("%v Versions %v\n", p.Name, versions[p.Name])
-	p.Install(*version)
 }
