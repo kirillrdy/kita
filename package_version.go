@@ -34,6 +34,8 @@ func (packageVersion PackageVersion) Install() {
 	source.Install()
 
 	archive.create()
+
+	RegisterContent(packageVersion)
 }
 
 func (packageVersion PackageVersion) WorldPath() string {
