@@ -22,7 +22,7 @@ func loadUrlsFromFile() {
 
 	start := time.Now()
 
-	file, err := os.Open(UrlsFileName)
+	file, err := os.Open(KitaBasePath + UrlsFileName)
 	defer file.Close()
 	error.Crash(err)
 
