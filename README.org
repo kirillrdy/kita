@@ -1,0 +1,8 @@
+* Kita
+* Todo
+** TODO storing content of packages
+** TODO checksum storage
+** TODO some url crawler service
+** TODO Build old ruby
+** TODO build firefox
+** TODO downloading progress for fetching packages
