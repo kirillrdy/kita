@@ -14,6 +14,7 @@ func ensureDir() {
 	os.MkdirAll(BuildPath, os.ModePerm)
 	os.MkdirAll(WorldPath, os.ModePerm)
 	os.MkdirAll(LocalPackageArchivesPath, os.ModePerm)
+	os.MkdirAll(environmentsPath, os.ModePerm)
 }
 
 func init() {
