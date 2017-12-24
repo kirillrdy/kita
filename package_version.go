@@ -14,6 +14,12 @@ func (packageVersion PackageVersion) Display() string {
 	return fmt.Sprintf("%s-%s", packageVersion.Package.Name, packageVersion.Version)
 }
 
+func FromString(packageVersion string) PackageVersion {
+	//TODO for now
+	packageName, version := extractVersion(packageVersion)
+	return PackageVersion{Package: Package{Name: packageName}, Version: version}
+}
+
 func (packageVersion PackageVersion) Install() {
 	archive := PackageArchive{PackageVersion: packageVersion}
 	if archive.Exists() {
