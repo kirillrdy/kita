@@ -30,8 +30,12 @@ func (archive PackageArchive) create() {
 }
 
 func (archive PackageArchive) Extract() {
+	archive.ExtractTo(WorldPath)
+}
+
+func (archive PackageArchive) ExtractTo(path string) {
 	//TODO obviously not rely on tar binary
-	shell.Exec("tar", "xvf", archive.path(), "-C", WorldPath)
+	shell.Exec("tar", "xvf", archive.path(), "-C", path)
 }
 
 func (archive PackageArchive) Exists() bool {
