@@ -2,7 +2,6 @@ package kita
 
 import (
 	"errors"
-	e "github.com/kirillrdy/kita/error" //TODO do something better than e
 	"log"
 )
 
@@ -48,7 +47,7 @@ func (p Package) Install(requiredVersion string) {
 		log.Printf("Required to install %v", requiredVersion)
 		var err error
 		version, err = p.FindVersion(requiredVersion)
-		e.Crash(err)
+		Crash(err)
 
 	}
 	version.Install()

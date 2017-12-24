@@ -2,7 +2,6 @@ package kita
 
 import (
 	"bufio"
-	"github.com/kirillrdy/kita/error"
 	"log"
 	"os"
 	"path/filepath"
@@ -24,7 +23,7 @@ func loadUrlsFromFile() {
 
 	file, err := os.Open(KitaBasePath + UrlsFileName)
 	defer file.Close()
-	error.Crash(err)
+	Crash(err)
 
 	scanner := bufio.NewScanner(file)
 

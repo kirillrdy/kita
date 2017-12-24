@@ -2,7 +2,6 @@ package kita
 
 import (
 	"encoding/json"
-	"github.com/kirillrdy/kita/error"
 	"log"
 	"os"
 	"path/filepath"
@@ -17,10 +16,10 @@ func loadGrandContentDb() map[string][]string {
 	var gradBase = make(map[string][]string)
 
 	file, err := os.Open(contentFile)
-	error.Crash(err)
+	Crash(err)
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&gradBase)
-	error.Crash(err)
+	Crash(err)
 	return gradBase
 }
 
@@ -35,7 +34,7 @@ func RegisterContent(version PackageVersion) {
 	}
 
 	files, err := filepath.Glob(version.WorldPath() + "/**/*")
-	error.Crash(err)
+	Crash(err)
 	for i := range files {
 		files[i] = strings.TrimPrefix(files[i], version.WorldPath()+"/")
 	}
@@ -43,7 +42,7 @@ func RegisterContent(version PackageVersion) {
 
 	gradBase[version.Display()] = files
 	file, err := os.Create(contentFile)
-	error.Crash(err)
+	Crash(err)
 	defer file.Close()
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "\t")

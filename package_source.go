@@ -2,7 +2,6 @@ package kita
 
 import (
 	"fmt"
-	"github.com/kirillrdy/kita/error"
 	"github.com/kirillrdy/kita/install"
 	"github.com/kirillrdy/kita/shell"
 	"io"
@@ -35,13 +34,13 @@ func (source PackageSource) Fetch() {
 
 	destination, err := os.Create(source.LocalPath())
 	defer destination.Close() //TODO errors
-	error.Crash(err)
+	Crash(err)
 
 	response, err := http.Get(source.URL())
-	error.Crash(err)
+	Crash(err)
 
 	_, err = io.Copy(destination, response.Body)
-	error.Crash(err)
+	Crash(err)
 	defer response.Body.Close()
 }
 
