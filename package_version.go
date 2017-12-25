@@ -16,8 +16,7 @@ func (packageVersion PackageVersion) Display() string {
 
 func FromString(packageVersion string) PackageVersion {
 	//TODO for now
-	packageName, version := extractVersion(packageVersion)
-	return PackageVersion{Package: Package{Name: packageName}, Version: version}
+	return extractVersion(packageVersion)
 }
 
 func (packageVersion PackageVersion) Install() {

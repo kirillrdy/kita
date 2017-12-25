@@ -1,7 +1,6 @@
 package kita
 
 import (
-	"errors"
 	"log"
 )
 
@@ -22,21 +21,11 @@ func (p Package) LatestVersion() PackageVersion {
 }
 
 func (p Package) Versions() []PackageVersion {
-	var versions []PackageVersion
-	for _, version := range Versions(p.Name) {
-		versions = append(versions, PackageVersion{Package: p, Version: version})
-	}
-	return versions
+	return Versions(p)
 }
 
 func (p Package) FindVersion(requiredVersion string) (PackageVersion, error) {
-
-	for _, version := range Versions(p.Name) {
-		if version == requiredVersion {
-			return PackageVersion{Package: p, Version: version}, nil
-		}
-	}
-	return PackageVersion{}, errors.New("Required package version is not found")
+	return FindVersion(Versions(p), requiredVersion)
 }
 
 // Very naive, trying to install latest version

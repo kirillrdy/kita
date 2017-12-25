@@ -14,6 +14,6 @@ func main() {
 	flag.Parse()
 
 	p := kita.Package{Name: flag.Arg(0)}
-	log.Printf("%v Versions %v\n", p.Name, kita.Versions(p.Name))
+	log.Printf("%v Versions %v\n", p.Name, kita.Versions(p))
 	p.Install(*version)
 }

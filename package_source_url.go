@@ -11,7 +11,7 @@ import (
 
 type PackageSourceUrl string
 
-var versions = make(map[string][]string)
+var versions = make(map[Package][]PackageVersion)
 var files = make(map[string][]string)
 var urls = make(map[string][]string)
 
@@ -36,8 +36,8 @@ func loadUrlsFromFile() {
 	log.Printf("Processed %d urls in %v", count, time.Since(start))
 }
 
-func Versions(packageName string) []string {
-	return versions[packageName]
+func Versions(p Package) []PackageVersion {
+	return versions[p]
 }
 
 func File(version PackageVersion) string {
@@ -50,7 +50,7 @@ func Url(fileName string) string {
 	return urls[fileName][0]
 }
 
-func extractVersion(url string) (string, string) {
+func extractVersion(url string) PackageVersion {
 	base := filepath.Base(url)
 	base = stripThings(base)
 	split := strings.Split(base, "-")
@@ -58,16 +58,16 @@ func extractVersion(url string) (string, string) {
 		log.Panic("failed to guess version")
 	}
 	version := split[len(split)-1]
-	return strings.TrimSuffix(base, "-"+version), version
+	packageName := strings.TrimSuffix(base, "-"+version)
+	return PackageVersion{Package: Package{Name: packageName}, Version: version}
 }
 
 func addUrl(url string) {
-	packageName, version := extractVersion(url)
-	versions[packageName] = append(versions[packageName], version)
+	version := extractVersion(url)
+	versions[version.Package] = append(versions[version.Package], version)
 
 	fileName := filepath.Base(url)
-	packagePlusVersion := packageName + "-" + version
-	files[packagePlusVersion] = append(files[packagePlusVersion], fileName)
+	files[version.Display()] = append(files[version.Display()], fileName)
 	urls[fileName] = append(urls[fileName], url)
 
 }
