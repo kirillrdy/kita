@@ -11,9 +11,9 @@ import (
 
 type PackageSourceUrl string
 
-var versions map[string][]string = make(map[string][]string)
-var files map[string][]string = make(map[string][]string)
-var urls map[string][]string = make(map[string][]string)
+var versions = make(map[string][]string)
+var files = make(map[string][]string)
+var urls = make(map[string][]string)
 
 const UrlsFileName = "kita.urls"
 
