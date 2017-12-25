@@ -10,14 +10,7 @@ type Package struct {
 }
 
 func (p Package) LatestVersion() PackageVersion {
-
-	versons := p.Versions()
-	//TODO something better here
-	if len(versons) != 0 {
-		return versons[len(versons)-1]
-	}
-	panic("Dont know how to build this yet")
-
+	return LatestVersion(p.Versions())
 }
 
 func (p Package) Versions() []PackageVersion {
