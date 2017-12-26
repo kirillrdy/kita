@@ -27,8 +27,6 @@ func (environment Environment) Require(path string) {
 
 func (environment Environment) AddPackage(p PackageVersion) {
 	archive := PackageArchive{PackageVersion: p}
-	if !archive.Exists() {
-		p.Install()
-	}
+	p.Install()
 	archive.ExtractTo(environment.Path())
 }

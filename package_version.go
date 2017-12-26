@@ -2,6 +2,7 @@ package kita
 
 import (
 	"fmt"
+	"os"
 )
 
 // Represents a particular versionf of a particular package, eg ruby-2.4.2
@@ -20,6 +21,9 @@ func FromString(packageVersion string) PackageVersion {
 }
 
 func (packageVersion PackageVersion) Install() {
+
+	os.MkdirAll(packageVersion.WorldPath(), os.ModePerm)
+
 	archive := PackageArchive{PackageVersion: packageVersion}
 	if archive.Exists() {
 		archive.Extract()
