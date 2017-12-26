@@ -50,16 +50,15 @@ func RegisterContent(version PackageVersion) {
 
 }
 
-//TODO this should return latest or specific version
-func VersionThatContains(requiredFile string) PackageVersion {
+func versionsThatContains(requiredFile string) []PackageVersion {
+	var versions []PackageVersion
 	grandDb := loadGrandContentDb()
 	for packageVersion, files := range grandDb {
 		for _, file := range files {
 			if file == requiredFile {
-				return FromString(packageVersion)
+				versions = append(versions, FromString(packageVersion))
 			}
 		}
 	}
-	//TODO wrong
-	return PackageVersion{}
+	return versions
 }

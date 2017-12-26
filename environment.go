@@ -19,6 +19,12 @@ func (environment Environment) Path() string {
 	return environmentsPath + environment.name
 }
 
+func (environment Environment) Require(path string) {
+	versions := versionsThatContains(path)
+	p := LatestVersion(versions)
+	environment.AddPackage(p)
+}
+
 func (environment Environment) AddPackage(p PackageVersion) {
 	archive := PackageArchive{PackageVersion: p}
 	if !archive.Exists() {
