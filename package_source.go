@@ -29,6 +29,7 @@ func (source PackageSource) LocalPath() string {
 	return LocalSourcesPath + source.fileName
 }
 
+//TODO prevent clashes or overwrites, eg github files only have version in the name
 func (source PackageSource) Fetch() {
 	log.Printf("Fetching: %v", source.URL())
 
