@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -51,6 +52,13 @@ func Url(fileName string) string {
 }
 
 func extractVersion(url string) PackageVersion {
+
+	if githubUrl.MatchString(url) {
+		verion := githubUrl.FindStringSubmatch(url)[1]
+		//TODO not be vim specific
+		return PackageVersion{Package: Package{Name: "vim"}, Version: verion}
+	}
+
 	base := filepath.Base(url)
 	base = stripThings(base)
 	split := strings.Split(base, "-")
@@ -61,6 +69,9 @@ func extractVersion(url string) PackageVersion {
 	packageName := strings.TrimSuffix(base, "-"+version)
 	return PackageVersion{Package: Package{Name: packageName}, Version: version}
 }
+
+//TODO dont make it vim specific
+var githubUrl = regexp.MustCompile("https://github.com/vim/vim/archive/v(.*).tar.gz")
 
 func addUrl(url string) {
 	version := extractVersion(url)
