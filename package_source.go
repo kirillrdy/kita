@@ -2,7 +2,6 @@ package kita
 
 import (
 	"fmt"
-	"github.com/kirillrdy/kita/install"
 	"github.com/kirillrdy/kita/shell"
 	"io"
 	"log"
@@ -65,6 +64,27 @@ func (source PackageSource) prefixArgument() string {
 }
 
 func (source PackageSource) Install() {
-	install.Make(source.BuildPath(), source.PackageVersion.WorldPath())
-	//TODO obviously not rely on tar binary
+
+	var requiredFiles []string
+	//TODO something better than this
+	if source.PackageVersion.Package.Name == "gcc" {
+		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
+		requiredFiles = append(requiredFiles, "lib/libgmp.so")
+		requiredFiles = append(requiredFiles, "include/mpc.h")
+	}
+
+	if source.PackageVersion.Package.Name == "mpc" {
+		requiredFiles = append(requiredFiles, "include/gmp.h")
+		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
+	}
+
+	var dependecies []PackageVersion
+	for _, file := range requiredFiles {
+		version := LatestVersion(versionsThatContains(file))
+		dependecies = append(dependecies, version)
+	}
+
+	env := []string{"LDFLAGS=" + ldFlags(dependecies), "CPPFLAGS=" + cppFlags(dependecies)}
+
+	Make(source, env)
 }
