@@ -25,6 +25,7 @@ func (environment Environment) Require(path string) {
 	environment.AddPackage(p)
 }
 
+//TODO rego just doing env overwrites
 func (environment Environment) AddPackage(p PackageVersion) {
 	archive := PackageArchive{PackageVersion: p}
 	p.Install()
