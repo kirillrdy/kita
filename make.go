@@ -9,7 +9,7 @@ import (
 func Make(source PackageSource, env []string) {
 	what := source.BuildPath()
 
-	confiure(source, env)
+	configure(source, env)
 
 	makeBin := "make"
 	if runtime.GOOS == "freebsd" {
@@ -20,7 +20,7 @@ func Make(source PackageSource, env []string) {
 	shell.ExecDirEnv(what, makeBin, []string{"install"}, env)
 }
 
-func confiure(source PackageSource, env []string) {
+func configure(source PackageSource, env []string) {
 	what := source.BuildPath()
 	toWhere := source.PackageVersion.WorldPath()
 
