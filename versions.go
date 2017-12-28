@@ -2,6 +2,7 @@ package kita
 
 import (
 	"errors"
+	"strings"
 )
 
 func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVersion, error) {
@@ -20,4 +21,20 @@ func LatestVersion(versions []PackageVersion) PackageVersion {
 		return versions[len(versions)-1]
 	}
 	panic("Dont know how to build this yet")
+}
+
+func ldFlags(versions []PackageVersion) string {
+	var flags []string
+	for _, version := range versions {
+		flags = append(flags, "-L"+version.LibPath())
+	}
+	return strings.Join(flags, " ")
+}
+
+func cppFlags(versions []PackageVersion) string {
+	var flags []string
+	for _, version := range versions {
+		flags = append(flags, "-I"+version.IncludePath())
+	}
+	return strings.Join(flags, " ")
 }
