@@ -1,3 +1,4 @@
+#+startup: showall
 * Kita
 * Todo
 ** TODO storing content of packages
