@@ -78,6 +78,7 @@ func (source PackageSource) Install() {
 		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
 	}
 
+	//TODO this should be a set rather than a list/array/slice
 	var dependecies []PackageVersion
 	for _, file := range requiredFiles {
 		version, err := LatestVersion(versionsThatContains(file))
