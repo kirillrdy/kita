@@ -55,3 +55,16 @@ func (packageVersion PackageVersion) Source() PackageSource {
 	fileName := File(packageVersion)
 	return PackageSource{fileName: fileName, PackageVersion: packageVersion}
 }
+
+//TODO this is wrong, since its very C specific
+func (version PackageVersion) LibPath() string {
+	return version.WorldPath() + "lib/"
+}
+
+func (version PackageVersion) IncludePath() string {
+	return version.WorldPath() + "lib/"
+}
+
+func (version PackageVersion) BinPath() string {
+	return version.WorldPath() + "bin/"
+}
