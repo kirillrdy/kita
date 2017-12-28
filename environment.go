@@ -1,6 +1,7 @@
 package kita
 
 import (
+	"log"
 	"os"
 )
 
@@ -21,7 +22,10 @@ func (environment Environment) Path() string {
 
 func (environment Environment) Require(path string) {
 	versions := versionsThatContains(path)
-	p := LatestVersion(versions)
+	p, err := LatestVersion(versions)
+	if err != nil {
+		log.Panicf("Failed to get latest version for env: %v", environment)
+	}
 	environment.AddPackage(p)
 }
 

@@ -15,12 +15,12 @@ func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVers
 	return PackageVersion{}, errors.New("Required package version is not found")
 }
 
-func LatestVersion(versions []PackageVersion) PackageVersion {
+func LatestVersion(versions []PackageVersion) (PackageVersion, error) {
 	//TODO something better here
 	if len(versions) != 0 {
-		return versions[len(versions)-1]
+		return versions[len(versions)-1], nil
 	}
-	panic("Dont know how to build this yet")
+	return PackageVersion{}, errors.New("Can't find latest version")
 }
 
 func ldFlags(versions []PackageVersion) string {

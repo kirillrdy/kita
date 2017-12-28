@@ -80,7 +80,10 @@ func (source PackageSource) Install() {
 
 	var dependecies []PackageVersion
 	for _, file := range requiredFiles {
-		version := LatestVersion(versionsThatContains(file))
+		version, err := LatestVersion(versionsThatContains(file))
+		if err != nil {
+			log.Panicf("Could not find the dependecy for %v", file)
+		}
 		dependecies = append(dependecies, version)
 	}
 

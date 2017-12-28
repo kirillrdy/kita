@@ -9,7 +9,7 @@ type Package struct {
 	Name string
 }
 
-func (p Package) LatestVersion() PackageVersion {
+func (p Package) LatestVersion() (PackageVersion, error) {
 	return LatestVersion(p.Versions())
 }
 
@@ -23,7 +23,11 @@ func (p Package) FindVersion(requiredVersion string) (PackageVersion, error) {
 
 // Very naive, trying to install latest version
 func (p Package) Install(requiredVersion string) {
-	version := p.LatestVersion()
+	version, err := p.LatestVersion()
+
+	if err != nil {
+		log.Panicf("Failed to find latest version for %v", p)
+	}
 
 	if requiredVersion != "" {
 		log.Printf("Required to install %v", requiredVersion)
