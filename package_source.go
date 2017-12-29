@@ -92,7 +92,7 @@ func (source PackageSource) Install() {
 		dependecies = append(dependecies, version)
 	}
 
-	env := []string{"LDFLAGS=" + ldFlags(dependecies), "CPPFLAGS=" + cppFlags(dependecies)}
+	env := []string{"LDFLAGS=" + ldFlags(dependecies), "CPPFLAGS=" + cppFlags(dependecies), "LD_LIBRARY_PATH=" + ldLibraryPath(dependecies), "LIBRARY_PATH=" + ldLibraryPath(dependecies)}
 
 	Make(source, env)
 }

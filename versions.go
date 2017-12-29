@@ -31,6 +31,14 @@ func ldFlags(versions []PackageVersion) string {
 	return strings.Join(flags, " ")
 }
 
+func ldLibraryPath(versions []PackageVersion) string {
+	var flags []string
+	for _, version := range versions {
+		flags = append(flags, version.LibPath())
+	}
+	return strings.Join(flags, ":")
+}
+
 func cppFlags(versions []PackageVersion) string {
 	var flags []string
 	for _, version := range versions {
