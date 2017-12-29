@@ -78,6 +78,10 @@ func (source PackageSource) Install() {
 		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
 	}
 
+	if source.PackageVersion.Package.Name == "mpfr" {
+		requiredFiles = append(requiredFiles, "include/gmp.h")
+	}
+
 	//TODO this should be a set rather than a list/array/slice
 	var dependecies []PackageVersion
 	for _, file := range requiredFiles {
