@@ -78,6 +78,14 @@ func (source PackageSource) Install() {
 		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
 	}
 
+	if source.PackageVersion.Package.Name == "tig" {
+		requiredFiles = append(requiredFiles, "bin/gcc")
+	}
+
+	if source.PackageVersion.Package.Name == "glib" {
+		requiredFiles = append(requiredFiles, "lib64/libffi.so") //TODO wtf lib64
+	}
+
 	if source.PackageVersion.Package.Name == "mpfr" {
 		requiredFiles = append(requiredFiles, "include/gmp.h")
 	}
