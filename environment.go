@@ -26,7 +26,7 @@ func (environment Environment) Execute() {
 		versions := versionsThatContains(requiredPath)
 		packageVersion, err := LatestVersion(versions)
 		if err != nil {
-			log.Panicf("Failed to get latest version for env: %v", environment)
+			log.Panicf("Failed to get latest version for env: %v", requiredPath)
 		}
 		binPaths = append(binPaths, packageVersion.BinPath())
 	}
