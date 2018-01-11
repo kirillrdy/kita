@@ -1,37 +1,44 @@
 package kita
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"os/exec"
+	"strings"
 )
 
 const environmentsPath = KitaBasePath + "envs/"
 
 type Environment struct {
-	name string
+	requirements []string
 }
 
-func CreateNewEnvironment(name string) Environment {
-	os.MkdirAll(environmentsPath+name, os.ModePerm)
-	return Environment{name: name}
+func (environment *Environment) Require(path string) {
+	environment.requirements = append(environment.requirements, path)
 }
 
-func (environment Environment) Path() string {
-	return environmentsPath + environment.name
-}
+func (environment Environment) Execute() {
 
-func (environment Environment) Require(path string) {
-	versions := versionsThatContains(path)
-	p, err := LatestVersion(versions)
-	if err != nil {
-		log.Panicf("Failed to get latest version for env: %v", environment)
+	var binPaths []string
+
+	for _, requiredPath := range environment.requirements {
+		versions := versionsThatContains(requiredPath)
+		packageVersion, err := LatestVersion(versions)
+		if err != nil {
+			log.Panicf("Failed to get latest version for env: %v", environment)
+		}
+		binPaths = append(binPaths, packageVersion.BinPath())
 	}
-	environment.AddPackage(p)
-}
 
-//TODO rego just doing env overwrites
-func (environment Environment) AddPackage(p PackageVersion) {
-	archive := PackageArchive{PackageVersion: p}
-	p.Install()
-	archive.ExtractTo(environment.Path())
+	cmd := exec.Command("/bin/bash")
+	path := fmt.Sprintf("PATH=%s:%s", strings.Join(binPaths, ":"), os.Getenv("PATH"))
+	currentEnv := os.Environ()
+	cmd.Env = append(currentEnv, path)
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+	err := cmd.Run()
+	Crash(err)
 }

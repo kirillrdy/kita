@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-const verboseBuilding = true
+const verboseBuilding = false
 
 func ExecDirEnv(dir string, cmdName string, args []string, env []string) {
 	log.Printf("%% %v %v %v", cmdName, args, env)
@@ -18,6 +18,7 @@ func ExecDirEnv(dir string, cmdName string, args []string, env []string) {
 		cmd.Stderr = os.Stderr
 	}
 	err := cmd.Run()
+
 	//TODO something better than crash here
 	if err != nil {
 		log.Panic(err)

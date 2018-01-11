@@ -13,7 +13,14 @@ func main() {
 
 	flag.Parse()
 
-	p := kita.Package{Name: flag.Arg(0)}
-	log.Printf("%v Versions %v\n", p.Name, kita.Versions(p))
-	p.Install(*version)
+	command := flag.Arg(0)
+	if command == "install" || command == "i" {
+		p := kita.Package{Name: flag.Arg(1)}
+		log.Printf("%v Versions %v\n", p.Name, kita.Versions(p))
+		p.Install(*version)
+	}
+
+	if command == "init" {
+
+	}
 }
