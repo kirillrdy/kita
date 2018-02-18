@@ -66,6 +66,7 @@ func (source PackageSource) prefixArgument() string {
 func (source PackageSource) Install() {
 
 	var requiredFiles []string
+
 	//TODO something better than this
 	if source.PackageVersion.Package.Name == "gcc" {
 		requiredFiles = append(requiredFiles, "lib/libmpfr.so")
@@ -100,6 +101,7 @@ func (source PackageSource) Install() {
 		dependecies = append(dependecies, version)
 	}
 
+	//TODO dont do this if they are empty !!!, i am sure this breaks something
 	env := []string{"LDFLAGS=" + ldFlags(dependecies), "CPPFLAGS=" + cppFlags(dependecies), "LD_LIBRARY_PATH=" + ldLibraryPath(dependecies), "LIBRARY_PATH=" + ldLibraryPath(dependecies)}
 
 	Make(source, env)
