@@ -2,6 +2,7 @@ package kita
 
 import (
 	"errors"
+	"github.com/blang/semver"
 	"strings"
 )
 
@@ -16,11 +17,21 @@ func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVers
 }
 
 func LatestVersion(versions []PackageVersion) (PackageVersion, error) {
-	//TODO something better here
-	if len(versions) != 0 {
-		return versions[len(versions)-1], nil
+	var max *semver.Version
+	var maxPackageVersion PackageVersion
+	for _, version := range versions {
+		semVersion, err := semver.Make(version.Version)
+		Crash(err)
+		if max == nil || semVersion.Compare(*max) > 0 {
+			maxPackageVersion = version
+			max = &semVersion
+		}
 	}
-	return PackageVersion{}, errors.New("Can't find latest version")
+	if max != nil {
+		return maxPackageVersion, nil
+	} else {
+		return PackageVersion{}, errors.New("Can't find latest version")
+	}
 }
 
 func ldFlags(versions []PackageVersion) string {
