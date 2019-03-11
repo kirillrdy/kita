@@ -94,6 +94,7 @@ func (source PackageSource) Install() {
 	//TODO this should be a set rather than a list/array/slice
 	var dependecies []PackageVersion
 	for _, file := range requiredFiles {
+		//TODO should we just provide requred files or the whole thingy ?
 		version, err := LatestVersion(versionsThatContains(file))
 		if err != nil {
 			log.Panicf("Could not find the dependecy for %v", file)
@@ -101,8 +102,20 @@ func (source PackageSource) Install() {
 		dependecies = append(dependecies, version)
 	}
 
-	//TODO dont do this if they are empty !!!, i am sure this breaks something
-	env := []string{"LDFLAGS=" + ldFlags(dependecies), "CPPFLAGS=" + cppFlags(dependecies), "LD_LIBRARY_PATH=" + ldLibraryPath(dependecies), "LIBRARY_PATH=" + ldLibraryPath(dependecies)}
+	//TODO review if those are required
+	env := []string{}
+
+	if ldFlags(dependecies) != "" {
+		env = append(env, "LDFLAGS="+ldFlags(dependecies))
+	}
+	if cppFlags(dependecies) != "" {
+		env = append(env, "CPPFLAGS="+cppFlags(dependecies))
+	}
+
+	if ldLibraryPath(dependecies) != "" {
+		env = append(env, "LD_LIBRARY_PATH="+ldLibraryPath(dependecies))
+		env = append(env, "LIBRARY_PATH="+ldLibraryPath(dependecies))
+	}
 
 	Make(source, env)
 }
