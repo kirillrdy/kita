@@ -27,6 +27,7 @@ func configure(source PackageSource, env []string) {
 	prefixArg := fmt.Sprintf("--prefix=%s", toWhere)
 	args := []string{"configure", prefixArg}
 
+	// this needs to come from some other source TODO
 	if source.PackageVersion.Package.Name == "gcc" {
 		args = append(args, "--disable-multilib")
 	}
