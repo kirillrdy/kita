@@ -5,10 +5,10 @@ import (
 	"os"
 )
 
-// Represents a particular versionf of a particular package, eg ruby-2.4.2
+// Represents a particular version of a particular package, eg ruby-2.4.2
 type PackageVersion struct {
 	Package Package
-	Version string //TODO for now, need some sort of version type
+	Version Version
 }
 
 func (packageVersion PackageVersion) Display() string {

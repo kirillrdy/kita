@@ -52,11 +52,11 @@ func Url(fileName string) string {
 }
 
 func extractVersion(url string) PackageVersion {
-
-	if githubUrl.MatchString(url) {
-		verion := githubUrl.FindStringSubmatch(url)[1]
-		//TODO not be vim specific
-		return PackageVersion{Package: Package{Name: "vim"}, Version: verion}
+	for _, regex := range siteRegexes {
+		if regex.MatchString(url) {
+			match := regex.FindStringSubmatch(url)
+			return PackageVersion{Package: Package{Name: match[1]}, Version: Version{raw: match[2]}}
+		}
 	}
 
 	base := filepath.Base(url)
@@ -67,11 +67,13 @@ func extractVersion(url string) PackageVersion {
 	}
 	version := split[len(split)-1]
 	packageName := strings.TrimSuffix(base, "-"+version)
-	return PackageVersion{Package: Package{Name: packageName}, Version: version}
+	return PackageVersion{Package: Package{Name: packageName}, Version: Version{raw: version}}
 }
 
-//TODO dont make it vim specific
-var githubUrl = regexp.MustCompile("https://github.com/vim/vim/archive/v(.*).tar.gz")
+var siteRegexes = []*regexp.Regexp{
+	regexp.MustCompile("https://github.com/(?:.*)/(.*)/archive/v(.*).tar.gz"),
+	regexp.MustCompile("http://erlang.org/(?:.*)/(.*)_src_(.*).tar.gz"),
+}
 
 func addUrl(url string) {
 	version := extractVersion(url)

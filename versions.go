@@ -2,14 +2,13 @@ package kita
 
 import (
 	"errors"
-	"github.com/blang/semver"
 	"strings"
 )
 
 func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVersion, error) {
 
 	for _, version := range versions {
-		if version.Version == requiredVersion {
+		if version.Version.raw == requiredVersion {
 			return version, nil
 		}
 	}
@@ -17,17 +16,15 @@ func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVers
 }
 
 func LatestVersion(versions []PackageVersion) (PackageVersion, error) {
-	var max *semver.Version
 	var maxPackageVersion PackageVersion
+	empty := PackageVersion{}
 	for _, version := range versions {
-		semVersion, err := semver.Make(version.Version)
-		Crash(err)
-		if max == nil || semVersion.Compare(*max) > 0 {
+
+		if maxPackageVersion == empty || version.Version.Compare(maxPackageVersion.Version) > 0 {
 			maxPackageVersion = version
-			max = &semVersion
 		}
 	}
-	if max != nil {
+	if maxPackageVersion != empty {
 		return maxPackageVersion, nil
 	} else {
 		return PackageVersion{}, errors.New("Can't find latest version")
