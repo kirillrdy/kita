@@ -4,7 +4,7 @@ import (
 	"os"
 )
 
-const KitaBasePath = "/kita/"
+const KitaBasePath = "/zroot/kita/"
 const WorldPath = KitaBasePath + "world/"
 
 //TODO move this somewehre
