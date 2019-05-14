@@ -1,6 +1,7 @@
 #+startup: showall
 * Kita
 * Todo
+** Checksum the source
 ** TODO storing content of packages
 ** TODO checksum storage
 ** TODO some url crawler service
