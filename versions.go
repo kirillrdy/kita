@@ -12,7 +12,7 @@ func FindVersion(versions []PackageVersion, requiredVersion string) (PackageVers
 			return version, nil
 		}
 	}
-	return PackageVersion{}, errors.New("Required package version is not found")
+	return PackageVersion{}, errors.New("required package version is not found")
 }
 
 func LatestVersion(versions []PackageVersion) (PackageVersion, error) {
@@ -27,7 +27,7 @@ func LatestVersion(versions []PackageVersion) (PackageVersion, error) {
 	if maxPackageVersion != empty {
 		return maxPackageVersion, nil
 	} else {
-		return PackageVersion{}, errors.New("Can't find latest version")
+		return PackageVersion{}, errors.New("can't find latest version")
 	}
 }
 
