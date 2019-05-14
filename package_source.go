@@ -33,7 +33,10 @@ func (source PackageSource) Fetch() {
 	log.Printf("Fetching: %v", source.URL())
 
 	destination, err := os.Create(source.LocalPath())
-	defer destination.Close() //TODO errors
+	defer func() {
+		err := destination.Close() //TODO errors
+		Crash(err)
+	}()
 	Crash(err)
 
 	response, err := http.Get(source.URL())

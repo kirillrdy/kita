@@ -23,8 +23,12 @@ func loadUrlsFromFile() {
 	start := time.Now()
 
 	file, err := os.Open(KitaBasePath + UrlsFileName)
-	defer file.Close()
 	Crash(err)
+
+	defer func() {
+		err := file.Close()
+		Crash(err)
+	}()
 
 	scanner := bufio.NewScanner(file)
 
