@@ -16,7 +16,10 @@ func loadGrandContentDb() map[string][]string {
 	var gradBase = make(map[string][]string)
 
 	file, err := os.Open(contentFile)
-	Crash(err)
+	//most likley missing file, but better to do stat instead
+	if err != nil {
+		return gradBase
+	}
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&gradBase)
 	Crash(err)
