@@ -62,10 +62,6 @@ func (source PackageSource) BuildPath() string {
 	return fmt.Sprintf("%s%s", BuildPath, source.PackageVersion.Display())
 }
 
-func (source PackageSource) prefixArgument() string {
-	return fmt.Sprintf("--prefix=%s", source.PackageVersion.WorldPath())
-}
-
 func (source PackageSource) Install() {
 
 	var requiredFiles []string
